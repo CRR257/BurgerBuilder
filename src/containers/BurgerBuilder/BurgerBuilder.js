@@ -91,36 +91,13 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        // this.setState({loading: true});
-        // const order = {
-        //     ingredients: this.state.ingredients,
-        //     price: this.state.totalPrice,
-        //     customer: {
-        //         name: "CRR",
-        //         adress: {
-        //             street: "Cats Avenue, 75",
-        //             zipCode: "3452",
-        //             country: "Catalonia"
-        //         },
-        //         email: "exit257@gmail.com"
-        //     },
-        //     deliveryMethod: "fastest"
-        // }
-        // axios.post('/orders.json', order)
-        //     .then(response => {
-        //         this.setState({loading: false, purchasing: false});
-        //         console.log(response)
-        //     })
-        //     .catch(error => {
-        //         this.setState({loading: false, purchasing: false});
-        //         console.log(error)
-        //     })  
         const queryParams = [];
         for (let i in this.state.ingredients) {
             queryParams.push(encodeURIComponent(i) + '=' + 
                 encodeURIComponent(this.state.ingredients[i]));
             // encode elements to be used un url
         }
+        queryParams.push('price= '  + this.state.totalPrice)
         const queryString = queryParams.join('&');
         this.props.history.push({
             pathname: '/checkout',
@@ -138,6 +115,7 @@ class BurgerBuilder extends Component {
             /* salad, meat... = value of each key (0, 1, 2.) 
             { salad: true, meat:false... }*/
         }
+        
         let orderSummary = null;
         let burger = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner />
 
@@ -176,6 +154,5 @@ class BurgerBuilder extends Component {
         )
     }
 }
-
 
 export default errorHandler(BurgerBuilder, axios);
